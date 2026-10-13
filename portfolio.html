@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230f4c5c'/%3E%3Cpath d='M8 9l8 15 8-15' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E" type="image/svg+xml">
+<style>
+:root{--ink:#1d2330;--bg:#f3f0e8;--card:#fffdf9;--line:#e2ddd0;--mute:#625f58;--acc:#0f4c5c;--gold:#c8871a;--ok:#2e7d32;--warn:#a86a10;--err:#b3261e;
+--c-Workshop:#0f4c5c;--c-Competition:#b8741a;--c-Volunteering:#3b7a3b;--c-Club:#3d5a80;--c-Hackathon:#9a4a2f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h3,.num,.dt b{font-family:Georgia,"Times New Roman",serif}
+button,input,select,textarea{font:inherit;color:inherit}.hide{display:none!important}.muted{color:var(--mute)}
+.hero{background:var(--acc);color:#fff;padding:24px 24px 0}
+.hero-in{max-width:1000px;margin:0 auto;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between;padding-bottom:20px}
+.hero h1{margin:0;font-size:1.9rem;line-height:1.1}.hero .sub{opacity:.8;font-size:.88rem;margin:4px 0 14px}
+.hs{display:flex;gap:14px;align-items:center}.hs .num{font-size:3rem;line-height:1}
+.hl{font-size:.82rem;opacity:.9}.hm{height:6px;background:rgba(255,255,255,.25);width:210px;margin:5px 0}.hm i{display:block;height:100%;background:var(--gold)}.hg{font-size:.78rem;opacity:.85}
+.btn{border:1px solid var(--acc);background:var(--acc);color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font-weight:600}
+.btn.alt{background:#fff;color:var(--acc)}.btn.sm{padding:4px 10px;font-size:.82rem}
+.btn.bad{border-color:var(--err);color:var(--err);background:#fff}.btn.good{border-color:var(--ok);color:var(--ok);background:#fff}
+.hero .btn{background:transparent;border-color:rgba(255,255,255,.65);color:#fff}.hero .btn.gold{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.tabs{max-width:1000px;margin:0 auto;display:flex;gap:4px}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 16px;cursor:pointer;color:#cfe0e4;font-weight:600}
+.tabs button.on{color:#fff;border-color:var(--gold)}
+main{max-width:1000px;margin:0 auto;padding:22px 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px}
+.grid{display:grid;gap:14px;margin-bottom:14px}.stats{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.two{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.three{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.stat{display:grid;gap:2px}.stat svg{color:var(--acc);margin-bottom:4px}.stat b{font-size:2rem;line-height:1.1}.stat span{font-size:.8rem;color:var(--mute)}
+h2{font-size:.78rem;margin:0 0 12px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em}
+.lead{margin:0 0 14px;font-size:1.02rem}.goalrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.goalrow input{width:90px}
+.stack{display:flex;height:12px;border-radius:2px;overflow:hidden;background:var(--line);margin-bottom:10px}.stack i{display:block;height:100%}
+.sw{display:inline-block;width:10px;height:10px;margin-right:7px}
+.row{display:flex;justify-content:space-between;gap:12px;margin:7px 0;font-size:.9rem}.row .muted{white-space:nowrap}
+a{color:var(--acc)}
+.chip{display:inline-block;margin:0 5px 5px 0;padding:2px 9px;border:1px solid var(--line);border-radius:3px;font-size:.8rem;background:var(--bg)}
+.tools{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+@media(max-width:680px){.tools{grid-template-columns:1fr 1fr}.tools input{grid-column:1/-1}.hs .num{font-size:2.3rem}}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:#fff}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.mh{font:600 .78rem system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin:18px 0 8px}
+.item{display:grid;grid-template-columns:58px 1fr;gap:14px;margin-bottom:10px;border-left:4px solid var(--c)}
+.dt{text-align:center;border-right:1px solid var(--line);padding-right:12px}.dt b{display:block;font-size:1.7rem;line-height:1}.dt span{font-size:.72rem;text-transform:uppercase;color:var(--mute);letter-spacing:.05em}
+.item h3,.rv h3{margin:0;font-size:1.05rem}.top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.badges{display:flex;gap:6px;flex-wrap:wrap}.badge{font-size:.72rem;padding:1px 8px;border:1px solid currentColor;border-radius:3px;font-weight:600}
+.s-Planned{color:var(--mute)}.s-In-Progress{color:var(--warn)}.s-Completed{color:var(--ok)}
+.v-Verified{background:var(--ok);border-color:var(--ok);color:#fff}.v-Pending{color:var(--warn)}.v-Unverified{color:var(--mute)}
+.rv{margin-bottom:10px;border-left:4px solid var(--acc)}
+.lrow{display:grid;grid-template-columns:150px 1fr auto;gap:6px;margin-bottom:6px}
+@media(max-width:520px){.lrow{grid-template-columns:1fr}}
+.linkrow{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem}
+.cert{margin-bottom:10px;border-left:4px solid var(--acc)}.cert h3{margin:0;font-size:1rem;word-break:break-all}
+details.how{margin-top:12px;font-size:.9rem;color:var(--mute)}details.how summary{cursor:pointer;color:var(--acc);font-weight:600}details.how p{margin:8px 0 0}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.bd{border:1px dashed var(--line);border-radius:4px;padding:10px 12px;display:grid;gap:2px}.bd b{font-size:.92rem}.bd span{font-size:.78rem;color:var(--mute)}
+.bd i{font-style:normal;font-size:.75rem;color:var(--mute);margin-top:4px}.bd.got{border:1px solid var(--acc);border-left:4px solid var(--gold);background:#fff}.bd.got i{color:var(--ok);font-weight:700}
+.paper h1,#report .resume h1{font:700 1.8rem Georgia,serif;margin:0}.paper h3,#report .resume h3{font:700 1rem Georgia,serif;margin:16px 0 4px;border-bottom:1px solid var(--line);padding-bottom:3px;color:var(--ink)}
+.rs{color:var(--mute);margin-bottom:6px}.rr{display:flex;justify-content:space-between;gap:14px;margin:6px 0}.rr span{color:var(--mute);font-size:.88rem}.rd{text-align:right;white-space:nowrap;font-size:.85rem;color:var(--mute)}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.empty{text-align:center;padding:36px;color:var(--mute);border:1px dashed var(--line);border-radius:6px;background:transparent}
+dialog{width:min(540px,94vw);border:1px solid var(--line);border-top:4px solid var(--acc);border-radius:6px;padding:20px;color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog h2{font:700 1.2rem Georgia,serif;color:var(--ink);text-transform:none;letter-spacing:0}
+label.l{display:block;font-size:.82rem;margin:10px 0 3px;color:var(--mute);font-weight:600}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.err{color:var(--err);font-size:.78rem;min-height:1em}.badf{border-color:var(--err)!important}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;padding:10px 16px;border-radius:4px;color:#fff;background:var(--ok);opacity:0;pointer-events:none;transition:opacity .2s;z-index:99;max-width:90vw}
+#toast.show{opacity:1}#toast.error{background:var(--err)}
+#report{display:none;color:#000;background:#fff;padding:20px;font-family:Georgia,serif}
+#report table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}#report td,#report th{border:1px solid #999;padding:4px;text-align:left}
+@media print{.app{display:none!important}#report{display:block!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+ <div class="hero-in">
+  <div><h1 id="title">Portfolio</h1><div class="sub" id="who"></div>
+   <div id="studentBtns"><button class="btn" id="exp">Export report</button> <button class="btn gold" id="addBtn">Add activity</button></div></div>
+  <div class="hs" id="heroStat"><div class="num" id="hHours">0</div><div><div class="hl">verified credit hours</div><div class="hm"><i id="hMeter" style="width:0"></i></div><div class="hg" id="hGoal"></div></div></div>
+ </div>
+ <nav class="tabs" id="tabs"><button class="on" data-view="dash">Overview</button><button data-view="recs">Activities</button><button data-view="certs">Certificates</button><button data-view="resume">Resume</button></nav>
+</header>
+<main>
+<section id="dash">
+ <div class="grid stats" id="stats"></div>
+ <div class="grid two">
+  <div class="card"><h2>Hours per month (not counting planned)</h2><div id="chart"></div></div>
+  <div class="card"><h2>Summary</h2><p id="summary" class="lead"></p>
+   <div class="goalrow"><label for="goal" class="muted">Credit goal (hours)</label><input id="goal" type="number" min="1" max="1000"><button class="btn alt sm" id="copySum">Copy summary</button></div>
+   <details class="how"><summary>How do credit hours and the goal work?</summary><p>Credit hours are the hours of activities that are both Completed and Verified by a faculty reviewer. Planned, In Progress and Unverified activities are not counted. The number at the top of the page is your verified credit hours, and the bar shows how close you are to your goal. The goal starts at 40 hours and you can change it in the box above. It is only a personal target, saved in this browser, and it does not change which activities are verified.</p></details></div>
+ </div>
+ <div class="card" style="margin-bottom:14px"><h2>Badges and milestones</h2><div class="bgrid" id="badges"></div></div>
+ <div class="grid three">
+  <div class="card"><h2>By category</h2><div id="cats"></div></div>
+  <div class="card"><h2>Top skills</h2><div id="skills"></div></div>
+  <div class="card"><h2>Recent activity</h2><div id="recent"></div></div>
+ </div>
+</section>
+<section id="recs" class="hide">
+ <div class="tools">
+  <input id="q" type="search" placeholder="Search title, organizer, skills, notes" aria-label="Search">
+  <select id="fc" aria-label="Category"></select><select id="fs" aria-label="Status"></select>
+  <select id="sort" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="hrs">Most hours</option><option value="az">Title A to Z</option></select>
+ </div>
+ <div id="list"></div>
+</section>
+<section id="certs" class="hide">
+ <div class="card" style="margin-bottom:12px"><div class="goalrow"><span class="muted">Certificates you have uploaded. Open or print each one.</span><button class="btn alt sm" id="cPrintList">Print list</button></div></div>
+ <div id="clist"></div>
+</section>
+<section id="resume" class="hide">
+ <div class="card" style="margin-bottom:12px"><div class="goalrow"><label class="muted" style="margin:0"><input type="checkbox" id="rvOnly" checked style="width:auto"> Verified activities only</label><button class="btn sm" id="rPrint">Print or save as PDF</button><button class="btn alt sm" id="rCopy">Copy as text</button></div></div>
+ <div class="card paper" id="rPaper"></div>
+</section>
+<section id="review" class="hide"><div id="rlist"></div></section>
+</main>
+</div>
+
+<dialog id="dlg"><form id="form" novalidate>
+ <h2 id="dlgTitle">Add activity</h2>
+ <label class="l" for="title2">Title *</label><input id="title2" maxlength="80"><div class="err" data-for="title2"></div>
+ <div class="f2">
+  <div><label class="l" for="category">Category *</label><select id="category"></select><div class="err" data-for="category"></div></div>
+  <div><label class="l" for="status">Status *</label><select id="status"></select><div class="err" data-for="status"></div></div>
+  <div><label class="l" for="date">Date *</label><input id="date" type="date"><div class="err" data-for="date"></div></div>
+  <div><label class="l" for="hours">Hours *</label><input id="hours" type="number" step="0.5" min="0" max="500"><div class="err" data-for="hours"></div></div>
+ </div>
+ <label class="l" for="org">Organizer or club</label><input id="org" maxlength="60">
+ <div class="f2"><div><label class="l" for="role">Your role</label><input id="role" maxlength="60" placeholder="Team lead, volunteer, member"></div>
+  <div><label class="l" for="outcome">Outcome</label><input id="outcome" maxlength="80" placeholder="Finalist, 2nd place, certificate"></div></div>
+ <label class="l" for="proof">Proof link (certificate or photo URL)</label><input id="proof" placeholder="https://"><div class="err" data-for="proof"></div>
+ <label class="l" for="file">Certificate file (PDF, PNG or JPG, up to 400 KB)</label><input id="file" type="file" accept=".pdf,.png,.jpg,.jpeg"><div class="err" data-for="file"></div><div id="fileNote" class="muted" style="font-size:.82rem"></div>
+ <label class="l">Links (optional, up to 5)</label><div id="links"></div><div class="err" data-for="links"></div>
+ <button type="button" class="btn alt sm" id="addLink">Add a link</button>
+ <div class="muted" style="font-size:.78rem;margin-top:4px">For example the website you built, the event's website, or a code repository.</div>
+ <label class="l" for="skills2">Skills gained (comma separated)</label><input id="skills2" maxlength="100">
+ <label class="l" for="notes">Notes</label><textarea id="notes" rows="2" maxlength="300"></textarea>
+ <div class="acts" style="justify-content:flex-end;margin-top:14px"><button type="button" class="btn alt" id="cancel">Cancel</button><button class="btn" type="submit">Save</button></div>
+</form></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="report"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const CATS=["Workshop","Competition","Hackathon","Volunteering","Club"],STAT=["Planned","In Progress","Completed"];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const slug=s=>s.replace(/ /g,"-"),today=()=>new Date().toISOString().slice(0,10);
+const fmtDate=d=>d?new Date(d+"T00:00").toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}):"";
+let tt;function toast(m,t="ok"){const e=$("#toast");e.textContent=m;e.className="show "+(t==="error"?"error":"");clearTimeout(tt);tt=setTimeout(()=>e.className="",3200)}
+const fail=(m,e)=>toast(m+(e&&e.message?": "+e.message:""),"error");
+
+/* ---- Supabase ---- */
+const sb=(typeof supabase!=="undefined"&&window.SUPABASE_KEY)?supabase.createClient(window.SUPABASE_URL,window.SUPABASE_KEY):null;
+const normRec=r=>({role:"",...r,links:Array.isArray(r.links)?r.links:[]});
+let ME="",ROLE="student",SID="",NAME="",records=[],goal=40,editingId=null,curFile=null;
+
+/* ---------------- summary helpers ---------------- */
+const doneRecs=()=>records.filter(r=>r.status==="Completed");
+const credits=()=>doneRecs().filter(r=>r.verify==="Verified").reduce((a,r)=>a+Number(r.hours),0);
+const cnt=s=>records.filter(r=>r.status===s).length;
+function topSkills(){const m={};records.forEach(r=>(r.skills||"").split(",").map(s=>s.trim()).filter(Boolean).forEach(s=>m[s]=(m[s]||0)+1));return Object.entries(m).sort((a,b)=>b[1]-a[1])}
+function summaryText(){
+ if(!records.length)return"No activities yet. Use Add activity to log your first one.";
+ const sk=topSkills().slice(0,3).map(s=>s[0]).join(", "),v=doneRecs().filter(r=>r.verify==="Verified").length;
+ return`${records.length} activities logged: ${doneRecs().length} completed (${v} verified by faculty), ${cnt("In Progress")} in progress, ${cnt("Planned")} planned. Verified credit hours: ${credits()} of ${goal}.${sk?" Top skills: "+sk+".":""}`;
+}
+function buildReport(){
+ $("#report").innerHTML=`<h1 style="margin:0">Student Participation Report</h1><div>${esc(NAME||"Student")}, ID ${esc(SID)}. Generated ${fmtDate(today())}</div><p>${esc(summaryText())}</p>
+ <table><tr><th>Activity</th><th>Category</th><th>Date</th><th>Hours</th><th>Status</th><th>Verification</th></tr>
+ ${[...records].sort((a,b)=>b.date.localeCompare(a.date)).map(r=>`<tr><td>${esc(r.title)}<br>${esc(r.org)}${[r.role,r.outcome].filter(Boolean).length?"<br>"+[r.role,r.outcome].filter(Boolean).map(esc).join(", "):""}</td><td>${r.category}</td><td>${fmtDate(r.date)}</td><td>${r.hours}</td><td>${r.status}</td><td>${r.verify}</td></tr>`).join("")}</table>
+ <p style="font-size:11px">Verified means confirmed by a faculty reviewer.</p>`;
+}
+
+/* ---------------- overview ---------------- */
+function showView(v){["dash","recs","certs","resume"].forEach(x=>$("#"+x).classList.toggle("hide",v!==x));$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.view===v))}
+const IC={list:'<path d="M4 6h16M4 12h16M4 18h10"/>',check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/>',shield:'<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'};
+const ic=n=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+function monthChart(){
+ const now=new Date(),ms=[];
+ for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);ms.push({k:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"),l:d.toLocaleDateString(undefined,{month:"short"}),h:0})}
+ records.forEach(r=>{const m=ms.find(x=>x.k===r.date.slice(0,7));if(m&&r.status!=="Planned")m.h+=Number(r.hours)});
+ if(!ms.some(m=>m.h))return'<span class="muted">Hours per month will appear here once you add activities.</span>';
+ const mx=Math.max(...ms.map(m=>m.h));
+ return`<svg viewBox="0 0 300 130" width="100%" role="img" aria-label="Hours per month">${ms.map((m,i)=>{const h=m.h/mx*76,x=12+i*48;return`<rect x="${x}" y="${100-h}" width="34" height="${h}" fill="var(--acc)"/><text x="${x+17}" y="${95-h}" text-anchor="middle" font-size="10" fill="var(--mute)">${m.h||""}</text><text x="${x+17}" y="118" text-anchor="middle" font-size="10" fill="var(--mute)">${m.l}</text>`}).join("")}<line x1="0" x2="300" y1="100" y2="100" stroke="var(--line)"/></svg>`;
+}
+function renderBadges(){
+ const cr=credits(),ver=records.filter(r=>r.verify==="Verified").length,dn=doneRecs();
+ const cats=new Set(dn.map(r=>r.category)).size,months=new Set(records.map(r=>r.date.slice(0,7))).size;
+ const B=[["First entry","Log your first activity",records.length,1],["First verified","Get one activity verified",ver,1],["Five completed","Complete five activities",dn.length,5],
+  ["10 verified hours","Reach 10 verified hours",cr,10],["25 verified hours","Reach 25 verified hours",cr,25],["All rounder","Complete an activity in every category",cats,CATS.length],
+  ["Consistent","Log activities in three different months",months,3],["Goal reached","Reach your credit goal",cr,goal]];
+ $("#badges").innerHTML=B.map(([n,d,v,t])=>{const got=v>=t&&t>0;return`<div class="bd ${got?"got":""}"><b>${n}</b><span>${d}</span><i>${got?"Earned":Math.min(v,t)+" of "+t}</i></div>`}).join("");
+}
+function renderDash(){
+ const cr=credits(),pct=Math.min(100,Math.round(cr/goal*100));
+ $("#hHours").textContent=cr;$("#hMeter").style.width=pct+"%";$("#hGoal").textContent="of your "+goal+" hour goal ("+pct+"%)";
+ $("#summary").textContent=summaryText();$("#goal").value=goal;
+ $("#stats").innerHTML=[["list","Activities",records.length],["check","Completed",doneRecs().length],["shield","Verified",records.filter(r=>r.verify==="Verified").length],["clock","Pending review",records.filter(r=>r.verify==="Pending").length]].map(([i,l,n])=>`<div class="card stat">${ic(i)}<b>${n}</b><span>${l}</span></div>`).join("");
+ $("#chart").innerHTML=monthChart();renderBadges();
+ const per=CATS.map(c=>[c,records.filter(r=>r.category===c).length]),tot=records.length;
+ $("#cats").innerHTML=tot?`<div class="stack">${per.map(([c,n])=>n?`<i style="width:${n/tot*100}%;background:var(--c-${c})"></i>`:"").join("")}</div>${per.map(([c,n])=>`<div class="row"><span><span class="sw" style="background:var(--c-${c})"></span>${c}</span><b>${n}</b></div>`).join("")}`:'<span class="muted">No activities yet.</span>';
+ $("#skills").innerHTML=topSkills().slice(0,10).map(([s,n])=>`<span class="chip">${esc(s)} (${n})</span>`).join("")||'<span class="muted">Add skills to your activities.</span>';
+ $("#recent").innerHTML=[...records].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(r=>`<div class="row"><span><span class="sw" style="background:var(--c-${r.category})"></span>${esc(r.title)}</span><span class="muted">${fmtDate(r.date)}</span></div>`).join("")||'<span class="muted">Nothing yet.</span>';
+}
+
+/* ---------------- activities list ---------------- */
+const VL={Verified:"Verified",Pending:"Pending review",Unverified:"Unverified"};
+function renderList(){
+ const q=$("#q").value.trim().toLowerCase(),fc=$("#fc").value,fs=$("#fs").value,so=$("#sort").value;
+ const S={new:(a,b)=>b.date.localeCompare(a.date),old:(a,b)=>a.date.localeCompare(b.date),hrs:(a,b)=>b.hours-a.hours,az:(a,b)=>a.title.localeCompare(b.title)};
+ const rows=records.filter(r=>(!fc||r.category===fc)&&(!fs||r.status===fs)&&(!q||[r.title,r.org,r.outcome,r.notes,r.skills].join(" ").toLowerCase().includes(q))).sort(S[so]);
+ if(!rows.length){$("#list").innerHTML=`<div class="empty">${records.length?"No activities match your filters.":"No activities yet. Use Add activity to log your first one."}</div>`;return}
+ const grp=so==="new"||so==="old";let cur="",html="";
+ rows.forEach(r=>{
+  const d=new Date(r.date+"T00:00"),mk=r.date.slice(0,7);
+  if(grp&&mk!==cur){cur=mk;html+=`<div class="mh">${d.toLocaleDateString(undefined,{month:"long",year:"numeric"})}</div>`}
+  html+=`<div class="card item" style="--c:var(--c-${r.category})" data-id="${esc(r.id)}">
+   <div class="dt"><b>${d.getDate()}</b><span>${d.toLocaleDateString(undefined,{month:"short"})}</span></div>
+   <div><div class="top"><h3>${esc(r.title)}</h3><div class="badges"><span class="badge" style="color:var(--c-${r.category})">${r.category}</span><span class="badge s-${slug(r.status)}">${r.status}</span><span class="badge v-${r.verify}">${VL[r.verify]}</span></div></div>
+   <div class="muted">${r.hours} hrs${r.org?", "+esc(r.org):""}${r.role?", "+esc(r.role):""}${r.outcome?", "+esc(r.outcome):""}${r.proof?`, <a href="${esc(r.proof)}" target="_blank" rel="noopener">Proof</a>`:""}${r.file_path?`, <a href="#" data-act="file">Certificate</a>`:""}</div>
+   ${linksHtml(r)}
+   ${r.skills?`<div style="margin-top:6px">${r.skills.split(",").map(s=>`<span class="chip">${esc(s.trim())}</span>`).join("")}</div>`:""}
+   ${r.notes?`<div>${esc(r.notes)}</div>`:""}
+   <div class="acts">
+    ${r.status!=="Completed"?`<button class="btn alt sm" data-act="adv">${r.status==="Planned"?"Start":"Mark completed"}</button>`:""}
+    ${r.status==="Completed"&&r.verify==="Unverified"?((r.proof||r.file_path)?`<button class="btn good sm" data-act="req">Request verification</button>`:`<span class="muted" style="font-size:.8rem;align-self:center">Add a proof link or certificate to request verification</span>`):""}
+    <button class="btn alt sm" data-act="edit">Edit</button><button class="btn bad sm" data-act="del">Delete</button>
+   </div></div></div>`;
+ });
+ $("#list").innerHTML=html;
+}
+const renderAll=()=>{renderDash();renderList();renderCerts()};
+
+/* ---------------- database helpers ---------------- */
+async function upd(id,patch){
+ const {error}=await sb.from("portfolio_records").update(patch).eq("id",id).eq("user_id",ME);
+ if(error){fail("Could not save",error);return false}
+ records=records.map(x=>x.id===id?{...x,...patch}:x);renderAll();return true;
+}
+async function delRec(r){
+ const {error}=await sb.from("portfolio_records").delete().eq("id",r.id).eq("user_id",ME);
+ if(error)return fail("Could not delete",error);
+ if(r.file_path)await sb.storage.from("certificates").remove([r.file_path]);
+ records=records.filter(x=>x.id!==r.id);renderAll();toast("Activity deleted");
+}
+async function openFile(path){
+ const w=window.open("","_blank");
+ const {data,error}=await sb.storage.from("certificates").createSignedUrl(path,120);
+ if(error||!data){if(w)w.close();return fail("Could not open the file",error)}
+ if(w)w.location=data.signedUrl;
+}
+
+/* ---------------- form and validation ---------------- */
+function validate(d){const e={};
+ if(d.title.length<3)e.title2="Title must be at least 3 characters.";
+ if(!CATS.includes(d.category))e.category="Choose a category.";
+ if(!STAT.includes(d.status))e.status="Choose a status.";
+ if(!d.date)e.date="Pick a date.";else if(d.status==="Completed"&&d.date>today())e.date="A completed activity cannot have a future date.";
+ if(!Number.isFinite(d.hours)||d.hours<0||d.hours>500)e.hours="Enter hours between 0 and 500.";
+ if(d.proof&&!/^https?:\/\/\S+\.\S+/.test(d.proof))e.proof="Proof must be a link starting with http:// or https://";
+ return e}
+function fileNote(){$("#fileNote").innerHTML=curFile?`Current file: ${esc(curFile.name)} <button type="button" class="btn alt sm" id="rmFile">Remove</button>`:""}
+$("#fileNote").addEventListener("click",e=>{if(e.target.id==="rmFile"){curFile=null;fileNote()}});
+function openForm(r){
+ editingId=r&&r.id?r.id:null;$("#dlgTitle").textContent=editingId?"Edit activity":"Add activity";
+ curFile=r&&r.file_path?{path:r.file_path,name:r.file_name||"certificate"}:null;$("#file").value="";fileNote();
+ const v=r||{title:"",category:"",status:"Planned",date:today(),hours:"",org:"",outcome:"",proof:"",skills:"",notes:""};
+ [["title2","title"],["category"],["status"],["date"],["hours"],["org"],["role"],["outcome"],["proof"],["skills2","skills"],["notes"]].forEach(([id,k])=>$("#"+id).value=v[k||id]??"");
+ setLinks(r&&r.links||[]);clearErrors();$("#dlg").showModal()}
+function clearErrors(){$$(".err").forEach(e=>e.textContent="");$$(".badf").forEach(e=>e.classList.remove("badf"))}
+$("#form").addEventListener("submit",async ev=>{
+ ev.preventDefault();clearErrors();
+ const d={title:$("#title2").value.trim(),category:$("#category").value,status:$("#status").value,date:$("#date").value,hours:parseFloat($("#hours").value),
+  org:$("#org").value.trim(),role:$("#role").value.trim(),outcome:$("#outcome").value.trim(),proof:$("#proof").value.trim(),
+  skills:$("#skills2").value.split(",").map(s=>s.trim()).filter(Boolean).slice(0,6).join(", "),notes:$("#notes").value.trim()};
+ const f=$("#file").files[0],er=validate(d);
+ const LK=readLinks();if(LK.bad)er.links="Each link must start with http:// or https://";d.links=LK.list;
+ if(f){if(!/\.(pdf|png|jpe?g)$/i.test(f.name))er.file="Use a PDF, PNG or JPG file.";else if(f.size>400*1024)er.file="File must be 400 KB or smaller."}
+ if(Object.keys(er).length){for(const k in er){document.querySelector(`[data-for="${k}"]`).textContent=er[k];$("#"+k).classList.add("badf")}toast("Please fix the highlighted fields","error");return}
+ const btn=$("#form button[type=submit]");btn.disabled=true;
+ try{
+  const old=editingId?records.find(r=>r.id===editingId):null;
+  let fp=curFile?curFile.path:null,fn=curFile?curFile.name:null;
+  if(f){
+   const path=ME+"/"+Date.now()+"-"+f.name.replace(/[^\w.-]/g,"_");
+   const up=await sb.storage.from("certificates").upload(path,f,{contentType:f.type||undefined});
+   if(up.error)throw up.error;fp=path;fn=f.name;
+  }
+  if(old&&old.file_path&&old.file_path!==fp)await sb.storage.from("certificates").remove([old.file_path]);
+  const row={...d,file_path:fp,file_name:fn};
+  if(old){
+   const verify=old.verify==="Verified"?"Unverified":old.verify;
+   const {error}=await sb.from("portfolio_records").update({...row,verify}).eq("id",editingId).eq("user_id",ME);if(error)throw error;
+   records=records.map(r=>r.id===editingId?{...r,...row,verify}:r);
+   toast(old.verify==="Verified"?"Updated. Editing a verified activity resets its verification.":"Activity updated");
+  }else{
+   const rec={id:"r"+Date.now(),user_id:ME,...row,verify:"Unverified"};
+   const {error}=await sb.from("portfolio_records").insert(rec);if(error)throw error;
+   records.push(rec);toast("Activity added");
+  }
+  $("#dlg").close();renderAll();
+ }catch(e){fail("Could not save",e)}finally{btn.disabled=false}
+});
+$("#cancel").onclick=()=>$("#dlg").close();
+
+/* ---------------- events ---------------- */
+$("#addBtn").onclick=()=>openForm();
+$$("#tabs button").forEach(b=>b.onclick=()=>{showView(b.dataset.view);if(b.dataset.view==="resume")renderResume();if(b.dataset.view==="certs")renderCerts()});
+["q","fc","fs","sort"].forEach(id=>$("#"+id).addEventListener("input",renderList));
+$("#list").addEventListener("click",async ev=>{
+ const b=ev.target.closest("[data-act]");if(!b)return;
+ const id=b.closest(".item").dataset.id,r=records.find(x=>x.id===id),a=b.dataset.act;
+ if(a==="file"){ev.preventDefault();return openFile(r.file_path)}
+ if(a==="edit")return openForm(r);
+ if(a==="adv"){const ns=r.status==="Planned"?"In Progress":"Completed",p={status:ns};if(ns==="Completed"&&r.date>today())p.date=today();if(await upd(id,p))toast("Status: "+ns)}
+ if(a==="req"){if(await upd(id,{verify:"Pending"}))toast("Verification requested. A faculty reviewer will check your proof.")}
+ if(a==="del"){if(b.dataset.armed)await delRec(r);else{b.dataset.armed=1;b.textContent="Confirm?";setTimeout(()=>{b.dataset.armed="";b.textContent="Delete"},3000)}}
+});
+$("#goal").addEventListener("change",e=>{const g=parseInt(e.target.value,10);
+ if(!g||g<1||g>1000){toast("Goal must be between 1 and 1000 hours","error");e.target.value=goal;return}
+ goal=g;try{localStorage.setItem("spp.goal."+ME,g)}catch(x){}renderDash();toast("Goal updated")});
+$("#copySum").onclick=async()=>{try{await navigator.clipboard.writeText(summaryText());toast("Summary copied")}catch(e){toast("Copy is not available here","error")}};
+$("#exp").onclick=()=>{buildReport();window.print()};
+
+/* ---------------- links, certificates tab ---------------- */
+const LABELS=["Website I built","Event website","Code repository","Other"];
+const okUrl=u=>/^https?:\/\/\S+\.\S+/.test(u);
+const linksHtml=r=>{const L=(r.links||[]).filter(l=>okUrl(l.url));return L.length?`<div class="linkrow">${L.map(l=>`<span>${esc(l.label)}: <a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.url.replace(/^https?:\/\//,"").slice(0,40))}</a></span>`).join("")}</div>`:""};
+const linkLines=r=>{const L=(r.links||[]).filter(l=>okUrl(l.url));return L.length?`<br><span>${L.map(l=>esc(l.label)+": "+esc(l.url)).join(" | ")}</span>`:""};
+const linkRow=(l={})=>`<div class="lrow"><select class="lk" aria-label="Link type">${LABELS.map(x=>`<option${x===l.label?" selected":""}>${x}</option>`).join("")}</select><input class="lu" value="${esc(l.url||"")}" placeholder="https://" aria-label="Link address"><button type="button" class="btn alt sm lx">Remove</button></div>`;
+function setLinks(a){$("#links").innerHTML=a.map(linkRow).join("")}
+function readLinks(){const list=[];let bad=false;$$("#links .lrow").forEach(r=>{const url=r.querySelector(".lu").value.trim();if(!url)return;if(!okUrl(url))bad=true;list.push({label:r.querySelector(".lk").value,url})});return{list:list.slice(0,5),bad}}
+$("#addLink").onclick=()=>{if($$("#links .lrow").length>=5)return toast("You can add up to 5 links","error");$("#links").insertAdjacentHTML("beforeend",linkRow())};
+$("#links").addEventListener("click",e=>{const x=e.target.closest(".lx");if(x)x.closest(".lrow").remove()});
+
+const certList=()=>records.filter(r=>r.file_path).sort((a,b)=>b.date.localeCompare(a.date));
+function renderCerts(){
+ const L=certList();
+ $("#clist").innerHTML=L.length?L.map(r=>`<div class="card cert" style="border-left-color:var(--c-${r.category})" data-id="${esc(r.id)}">
+  <div class="top"><h3>${esc(r.file_name||"certificate")}</h3><div class="badges"><span class="badge" style="color:var(--c-${r.category})">${r.category}</span><span class="badge v-${r.verify}">${VL[r.verify]}</span></div></div>
+  <div class="muted">${esc(r.title)}, ${fmtDate(r.date)}</div>
+  <div class="acts"><button class="btn alt sm" data-c="open">Open</button><button class="btn alt sm" data-c="print">Print</button></div></div>`).join(""):'<div class="empty">No certificates yet. Attach one when you add or edit an activity.</div>';
+}
+async function printCert(r){
+ const w=window.open("","_blank");
+ const {data,error}=await sb.storage.from("certificates").download(r.file_path);
+ if(error||!data){if(w)w.close();return fail("Could not load the file",error)}
+ if(!w)return toast("Allow pop-ups for this site to print","error");
+ const url=URL.createObjectURL(data),isImg=/^image\//.test(data.type)||/\.(png|jpe?g)$/i.test(r.file_name||"");
+ if(isImg){
+  w.document.write(`<!DOCTYPE html><title>${esc(r.title)}</title><style>body{margin:0;text-align:center}img{max-width:100%;max-height:100vh}@page{margin:10mm}</style><img src="${url}" onload="setTimeout(function(){print()},200)">`);w.document.close();
+ }else{w.location=url;toast("The PDF opened in a new tab. Use its print button.")}
+}
+$("#clist").addEventListener("click",ev=>{
+ const b=ev.target.closest("[data-c]");if(!b)return;
+ const r=records.find(x=>x.id===b.closest(".cert").dataset.id);if(!r)return;
+ if(b.dataset.c==="open")openFile(r.file_path);else printCert(r);
+});
+$("#cPrintList").onclick=()=>{
+ const L=certList();if(!L.length)return toast("There are no certificates to print yet","error");
+ $("#report").innerHTML=`<h1 style="margin:0">Certificates</h1><div>${esc(NAME||"Student")}, ID ${esc(SID)}. Generated ${fmtDate(today())}</div>
+ <table><tr><th>Activity</th><th>Category</th><th>Date</th><th>Certificate file</th><th>Verification</th></tr>${L.map(r=>`<tr><td>${esc(r.title)}</td><td>${r.category}</td><td>${fmtDate(r.date)}</td><td>${esc(r.file_name||"")}</td><td>${r.verify}</td></tr>`).join("")}</table>`;
+ window.print();
+};
+
+/* ---------------- resume builder ---------------- */
+const resumeList=()=>doneRecs().filter(r=>!$("#rvOnly").checked||r.verify==="Verified").sort((a,b)=>b.date.localeCompare(a.date));
+function resumeHtml(){
+ const list=resumeList(),hrs=list.reduce((a,r)=>a+Number(r.hours),0);
+ const sk=[...new Set(list.flatMap(r=>(r.skills||"").split(",").map(s=>s.trim()).filter(Boolean)))];
+ const sec=CATS.map(c=>{const L=list.filter(r=>r.category===c);return L.length?`<h3>${c}</h3>`+L.map(r=>`<div class="rr"><div><b>${esc(r.title)}</b>${r.org?", "+esc(r.org):""}${[r.role,r.outcome].filter(Boolean).length?`<br><span>${[r.role,r.outcome].filter(Boolean).map(esc).join(", ")}</span>`:""}${linkLines(r)}</div><div class="rd">${fmtDate(r.date)}<br>${r.hours} hrs${r.verify==="Verified"?", verified":""}</div></div>`).join(""):""}).join("");
+ return`<h1>${esc(NAME||"Student")}</h1><div class="rs">Student ID ${esc(SID)}</div><h2>Extracurricular participation</h2><p>${list.length} activit${list.length===1?"y":"ies"}, ${hrs} hours.</p>${sk.length?`<h3>Skills</h3><p>${sk.map(esc).join(", ")}</p>`:""}${sec||'<p class="muted">No matching activities yet. Complete and verify activities to see them here.</p>'}`;
+}
+const renderResume=()=>{$("#rPaper").innerHTML=resumeHtml()};
+$("#rvOnly").onchange=renderResume;
+$("#rPrint").onclick=()=>{$("#report").innerHTML=`<div class="resume">${resumeHtml()}</div>`;window.print()};
+$("#rCopy").onclick=async()=>{
+ const l=resumeList(),txt=(NAME||"Student")+" (ID "+SID+")\nExtracurricular participation\n"+CATS.map(c=>{const L=l.filter(r=>r.category===c);return L.length?"\n"+c+"\n"+L.map(r=>"- "+r.title+(r.org?", "+r.org:"")+([r.role,r.outcome].filter(Boolean).length?" ("+[r.role,r.outcome].filter(Boolean).join(", ")+")":"")+", "+fmtDate(r.date)+", "+r.hours+" hrs"+((r.links||[]).length?" | "+r.links.map(l=>l.label+": "+l.url).join(" | "):"")).join("\n"):""}).join("");
+ try{await navigator.clipboard.writeText(txt);toast("Resume text copied")}catch(e){toast("Copy is not available here","error")}};
+
+/* ---------------- faculty review queue ---------------- */
+async function renderReview(){
+ try{
+  const [R,P]=await Promise.all([sb.from("portfolio_records").select("*").eq("verify","Pending"),sb.from("profiles").select("id,full_name,student_id")]);
+  if(R.error)throw R.error;
+  const pm={};(P.data||[]).forEach(p=>pm[p.id]=p);
+  $("#rlist").innerHTML=R.data.length?R.data.map(r=>{const p=pm[r.user_id]||{};return`<div class="card rv" data-uid="${esc(r.user_id)}" data-id="${esc(r.id)}">
+  <div class="top"><h3>${esc(r.title)}</h3><div class="badges"><span class="badge">${r.category}</span><span class="badge">${esc(p.full_name||"Student")} (${esc(p.student_id||"")})</span></div></div>
+  <div class="muted">${fmtDate(r.date)}, ${r.hours} hrs${r.org?", "+esc(r.org):""}${r.role?", "+esc(r.role):""}${r.outcome?", "+esc(r.outcome):""}</div>
+  ${linksHtml(r)}
+  <div>${r.proof?`Proof: <a href="${esc(r.proof)}" target="_blank" rel="noopener">${esc(r.proof)}</a> `:""}${r.file_path?`<a href="#" data-file="${esc(r.file_path)}">Certificate: ${esc(r.file_name||"file")}</a>`:""}${!r.proof&&!r.file_path?'<span class="muted">No proof attached</span>':""}</div>
+  <div class="acts"><button class="btn good sm" data-d="Verified">Approve</button><button class="btn bad sm" data-d="Unverified">Reject</button></div></div>`}).join(""):'<div class="empty">Nothing is waiting for review.</div>';
+ }catch(e){fail("Could not load the review queue",e)}
+}
+$("#rlist").addEventListener("click",async ev=>{
+ const fl=ev.target.closest("[data-file]");
+ if(fl){ev.preventDefault();return openFile(fl.dataset.file)}
+ const b=ev.target.closest("[data-d]");if(!b)return;
+ const c=b.closest(".rv");
+ const {error}=await sb.from("portfolio_records").update({verify:b.dataset.d}).eq("id",c.dataset.id).eq("user_id",c.dataset.uid);
+ if(error)return fail("Could not update",error);
+ toast(b.dataset.d==="Verified"?"Approved. The hours now count as credits.":"Rejected. The student can fix the proof and request again.",b.dataset.d==="Verified"?"ok":"error");
+ renderReview();
+});
+
+/* ---------------- start ---------------- */
+const opts=(a,first)=>(first?`<option value="">${first}</option>`:"")+a.map(c=>`<option>${c}</option>`).join("");
+$("#category").innerHTML=opts(CATS,"Select");$("#status").innerHTML=opts(STAT);$("#fc").innerHTML=opts(CATS,"All categories");$("#fs").innerHTML=opts(STAT,"All statuses");
+const say=m=>{document.querySelector(".app").innerHTML=`<main><div class="empty">${m}</div></main>`};
+(async function init(){
+ if(!sb)return say("Could not load Supabase. Open the site from a web server or your deployed address, not a file preview.");
+ if(/PASTE/.test(window.SUPABASE_KEY||""))return say("Supabase is not set up yet. Paste your publishable key into supabase-config.js.");
+ try{
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session)return say("Please log in through the portal first.");
+  ME=session.user.id;
+  const {data:p}=await sb.from("profiles").select("full_name,student_id,role").eq("id",ME).maybeSingle();
+  ROLE=p&&p.role==="faculty"?"faculty":"student";SID=(p&&p.student_id)||"";NAME=(p&&p.full_name)||"";
+  goal=parseInt(localStorage.getItem("spp.goal."+ME),10)||40;
+  if(ROLE==="faculty"){
+   $("#title").textContent="Review queue";$("#who").textContent="Faculty reviewer: "+(NAME||SID);
+   $("#studentBtns").classList.add("hide");$("#heroStat").classList.add("hide");$("#tabs").classList.add("hide");$("#dash").classList.add("hide");$("#review").classList.remove("hide");
+   await renderReview();
+  }else{
+   $("#title").textContent="My portfolio";$("#who").textContent=(NAME?NAME+", ":"")+"ID "+SID;
+   const {data,error}=await sb.from("portfolio_records").select("*").eq("user_id",ME);if(error)throw error;
+   records=data.map(normRec);renderAll();
+  }
+ }catch(e){fail("Could not load your data",e)}
+})();
+</script>
+</body>
+</html>

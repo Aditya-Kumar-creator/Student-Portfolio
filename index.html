@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Portfolio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230f4c5c'/%3E%3Cpath d='M8 9l8 15 8-15' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E" type="image/svg+xml">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<style>
+:root{--ink:#1d2330;--bg:#f3f0e8;--card:#fffdf9;--line:#e2ddd0;--mute:#625f58;--acc:#0f4c5c;--gold:#c8871a;--err:#b3261e;--ok:#2e7d32}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+h1,h2,h3,.brand,.num{font-family:Georgia,"Times New Roman",serif}
+button,input{font:inherit}.hide{display:none!important}.muted{color:var(--mute)}a{color:var(--acc)}
+.btn{border:1px solid var(--acc);background:var(--acc);color:#fff;padding:9px 16px;border-radius:4px;cursor:pointer;font-weight:600}
+.btn.alt{background:#fff;color:var(--acc)}.btn.sm{padding:5px 10px;font-size:.85rem}.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+/* login */
+#login{min-height:100vh;display:grid;grid-template-columns:1.15fr 1fr}
+.lhero{background:var(--acc);color:#fff;padding:48px 52px;display:flex;flex-direction:column;justify-content:space-between;gap:40px}
+.brand{font-size:1.15rem;font-weight:700}
+.lhero h1{font-size:clamp(2rem,4vw,3rem);line-height:1.12;margin:0 0 14px;max-width:520px}
+.lhero p{max-width:470px;margin:0;opacity:.92}
+.steps{list-style:none;padding:0;margin:0;counter-reset:s;display:grid;gap:16px;max-width:470px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:42px 1fr;gap:12px;border-top:1px solid rgba(255,255,255,.3);padding-top:14px}
+.steps li::before{content:counter(s);font:700 2rem/1 Georgia,serif;color:var(--gold)}
+.steps b{display:block}.steps span{opacity:.85;font-size:.9rem}
+.lform{display:grid;place-items:center;padding:28px}.lform>div{width:min(380px,100%)}
+.lform h2{font-size:1.6rem;margin:0 0 4px}
+.tabs{display:flex;border-bottom:1px solid var(--line);margin:16px 0 8px}
+.tabs button{flex:1;background:none;border:0;border-bottom:3px solid transparent;padding:10px;cursor:pointer;color:var(--mute);font-weight:600}
+.tabs button.on{color:var(--acc);border-color:var(--gold)}
+label{display:block;font-size:.82rem;color:var(--mute);margin:10px 0 3px;font-weight:600}
+input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:4px;background:#fff}
+input:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.err{color:var(--err);font-size:.82rem;min-height:1.1em}
+.foot{font-size:.82rem;color:var(--mute);margin-top:18px}
+main>.foot{border-top:1px solid var(--line);padding-top:14px;margin-top:24px}
+.note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);padding:10px 12px;font-size:.82rem;margin-top:16px}
+@media(max-width:800px){#login{grid-template-columns:1fr}.lhero{padding:30px 22px;gap:26px}}
+/* shell */
+.top{background:var(--ink);color:#fff;display:flex;align-items:center;gap:14px;padding:11px 20px;position:sticky;top:0;z-index:5}
+.top .brand{flex:1}.top .who{font-size:.85rem;text-align:right;line-height:1.25}
+.top .btn{background:none;border-color:rgba(255,255,255,.6)}
+.layout{display:grid;grid-template-columns:210px 1fr;min-height:calc(100vh - 52px)}
+.side{background:var(--card);border-right:1px solid var(--line);padding:14px 0}
+.side button{display:block;width:100%;text-align:left;border:0;background:none;padding:11px 20px;cursor:pointer;border-left:4px solid transparent;color:var(--ink)}
+.side button:hover{background:var(--bg)}.side button.on{border-color:var(--gold);background:var(--bg);font-weight:700}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.side{display:flex;border-right:0;border-bottom:1px solid var(--line);padding:0;overflow-x:auto}.side button{width:auto;border-left:0;border-bottom:4px solid transparent;white-space:nowrap}.side button.on{border-color:var(--gold)}.top .who{display:none}}
+main{padding:20px;max-width:1020px;width:100%}
+.band{background:var(--acc);color:#fff;border-radius:6px;padding:22px 24px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.band h2{margin:0;font-size:1.7rem}.band p{margin:4px 0 0;opacity:.85}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:18px}
+.card h3{margin:0 0 12px;font-size:.78rem;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--mute)}
+.kpi{display:flex;gap:10px;margin-bottom:14px}.kpi div{flex:1;border:1px solid var(--line);border-radius:4px;padding:10px 12px;background:#fff}
+.kpi b{display:block;font:700 1.7rem/1.1 Georgia,serif}.kpi span{font-size:.78rem;color:var(--mute)}
+.meter{height:8px;background:var(--line);border-radius:2px;overflow:hidden;margin:6px 0 14px}.meter i{display:block;height:100%;background:var(--acc)}
+.li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.li:last-child{border:0}.li small{display:block;color:var(--mute)}
+#pview iframe{width:100%;height:calc(100vh - 110px);min-height:560px;border:1px solid var(--line);border-radius:6px;background:#fff}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}#toast.show{opacity:1}
+.tbl{width:100%;border-collapse:collapse;font-size:.9rem}.tbl th,.tbl td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end}
+.fgrid input,.fgrid select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:4px;background:#fff;font:inherit}
+.kpi.wide div{min-width:110px}
+</style>
+</head>
+<body>
+
+<div id="login">
+ <div class="lhero">
+  <div class="brand">Student Portfolio</div>
+  <div>
+   <h1>Keep a verified record of what you do beyond class.</h1>
+   <p>Workshops, competitions, hackathons, volunteering and club work, in one place. Faculty confirm each activity, and confirmed hours count toward your credit goal.</p>
+  </div>
+  <ol class="steps">
+   <li><div><b>Log it</b><span>Add the activity with its date and hours.</span></div></li>
+   <li><div><b>Prove it</b><span>Attach a link to your certificate or photo.</span></div></li>
+   <li><div><b>Get it verified</b><span>A faculty reviewer approves it. Export a report any time.</span></div></li>
+  </ol>
+ </div>
+ <div class="lform"><div>
+  <h2>Student portal</h2><div class="muted">Sign in or create an account.</div>
+  <div class="tabs"><button class="on" id="tl">Log in</button><button id="tr">Register</button></div>
+  <form id="f" novalidate>
+   <div id="rf" class="hide"><label for="nm">Full name</label><input id="nm" autocomplete="name"><div class="err" id="e-nm"></div>
+    <label for="sid">Student ID</label><input id="sid" placeholder="e.g. 24CS001"><div class="err" id="e-sid"></div></div>
+   <label for="em">Email</label><input id="em" type="email" autocomplete="email"><div class="err" id="e-em"></div>
+   <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password"><div class="err" id="e-pw"></div>
+   <button class="btn" style="width:100%;margin-top:14px" id="go">Log in</button>
+  </form>
+  <div class="note" id="note"></div>
+  <div class="foot"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms and Conditions</a></div>
+ </div></div>
+</div>
+
+<div id="shell" class="hide">
+ <header class="top"><div class="brand">Student Portfolio</div><div class="who"><span id="uname"></span><br><span id="urole" style="opacity:.75"></span></div><button class="btn sm" id="out">Log out</button></header>
+ <div class="layout">
+  <aside class="side" id="side"></aside>
+  <main>
+   <section id="dview">
+    <div class="band"><div><h2 id="hi"></h2><p id="sub"></p></div><button class="btn gold" id="open"></button></div>
+    <div class="grid">
+     <div class="card"><h3 id="wt"></h3><div id="pw2"></div></div>
+     <div class="card" id="evc"><h3>Upcoming events</h3><div id="events"></div></div>
+    </div>
+   </section>
+   <section id="pview" class="hide"><iframe id="pframe" title="Portfolio"></iframe></section>
+   <section id="eview" class="hide">
+    <div class="band"><div><h2>Events</h2><p id="esub"></p></div></div>
+    <div id="efac" class="card hide" style="margin-bottom:14px"><h3>Create an event</h3>
+     <form id="ef" class="fgrid" novalidate>
+      <input id="ef-t" placeholder="Event title" aria-label="Event title" maxlength="80"><select id="ef-c" aria-label="Category"></select>
+      <input id="ef-d" type="date" aria-label="Date"><input id="ef-h" type="number" step="0.5" min="0.5" max="24" placeholder="Hours" aria-label="Hours">
+      <input id="ef-o" placeholder="Organizer" aria-label="Organizer" maxlength="60"><button class="btn">Create event</button>
+     </form><div class="err" id="e-ef"></div></div>
+        <div class="card"><h3>All events</h3><div id="elist"></div></div>
+   </section>
+   <section id="cview" class="hide"><div class="band"><div><h2>Class overview</h2><p>Participation across all registered students.</p></div></div><div id="cbody"></div></section>
+   <footer class="foot"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms and Conditions</a></footer>
+  </main>
+ </div>
+</div>
+<div id="toast" role="status"></div>
+
+<script>
+/* Module registry: add an entry to add a plugin. roles limits who sees it. */
+const MODULES=[
+ {id:"dash",name:"Dashboard",roles:["student","faculty"]},
+ {id:"portfolio",name:"Portfolio",roles:["student"],url:"portfolio.html"},
+ {id:"events",name:"Events",roles:["student","faculty"]},
+ {id:"class",name:"Class overview",roles:["faculty"]},
+ {id:"review",name:"Review queue",roles:["faculty"],url:"portfolio.html"}
+];
+const CATS=["Workshop","Competition","Hackathon","Volunteering","Club"];
+const today=()=>new Date().toISOString().slice(0,10);
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.className="show";clearTimeout(tt);tt=setTimeout(()=>t.className="",3000)}
+const q=async p=>{const {data,error}=await p;if(error)throw error;return data};
+const fail=(m,e)=>toast(m+(e&&e.message?": "+e.message:""));
+
+/* ---- Supabase ---- */
+const libOk=typeof supabase!=="undefined",keyOk=!!window.SUPABASE_KEY&&!/PASTE/.test(window.SUPABASE_KEY);
+const configured=libOk&&keyOk;
+const sb=configured?supabase.createClient(window.SUPABASE_URL,window.SUPABASE_KEY):null;
+let user=null,mode="login";
+$("#note").innerHTML=configured?"Faculty accounts are set up by an administrator.":!libOk?"<b>Could not load Supabase.</b> Open this page from a web server or your deployed site (not a file preview), and check your internet connection.":"<b>Not connected.</b> Paste your Supabase publishable key into supabase-config.js, then reload.";
+
+async function loadUser(){
+ const {data:{session}}=await sb.auth.getSession();
+ if(!session)return null;
+ const {data:p}=await sb.from("profiles").select("full_name,student_id,role").eq("id",session.user.id).maybeSingle();
+ if(!p)return null;
+ return{id:session.user.id,name:p.full_name||session.user.email,sid:p.student_id||"",role:p.role,email:session.user.email};
+}
+function setMode(m){mode=m;$("#rf").classList.toggle("hide",m==="login");$("#tl").classList.toggle("on",m==="login");$("#tr").classList.toggle("on",m==="register");$("#go").textContent=m==="login"?"Log in":"Create account";["nm","sid","em","pw"].forEach(i=>$("#e-"+i).textContent="")}
+$("#tl").onclick=()=>setMode("login");$("#tr").onclick=()=>setMode("register");
+$("#f").onsubmit=async e=>{
+ e.preventDefault();
+ const v={nm:$("#nm").value.trim(),sid:$("#sid").value.trim(),em:$("#em").value.trim().toLowerCase(),pw:$("#pw").value},er={};
+ if(mode==="register"){
+  if(v.nm.length<2)er.nm="Enter your full name.";
+  if(!/^[A-Za-z0-9_-]{4,15}$/.test(v.sid))er.sid="Student ID: 4 to 15 letters or numbers.";
+ }
+ if(!/^\S+@\S+\.\S+$/.test(v.em))er.em="Enter a valid email address.";
+ if(v.pw.length<6)er.pw="Password must be at least 6 characters.";
+ ["nm","sid","em","pw"].forEach(k=>$("#e-"+k).textContent=er[k]||"");
+ if(Object.keys(er).length)return;
+ if(!configured){$("#e-pw").textContent="Supabase is not connected yet.";return}
+ const btn=$("#go");btn.disabled=true;
+ try{
+  if(mode==="register"){
+   const {data,error}=await sb.auth.signUp({email:v.em,password:v.pw,options:{data:{full_name:v.nm,student_id:v.sid}}});
+   if(error){
+    if(/database error/i.test(error.message))$("#e-sid").textContent="This student ID may already be registered.";
+    else if(/already/i.test(error.message))$("#e-em").textContent="This email is already registered.";
+    else $("#e-pw").textContent=error.message;
+    return;
+   }
+   if(!data.session){setMode("login");toast("Account created. Check your email to confirm it, then log in.");return}
+  }else{
+   const {error}=await sb.auth.signInWithPassword({email:v.em,password:v.pw});
+   if(error){$("#e-pw").textContent=/confirm/i.test(error.message)?"Please confirm your email first, then log in.":"Email or password is incorrect.";return}
+  }
+  user=await loadUser();
+  if(!user){$("#e-pw").textContent="Your profile could not be loaded. Try again.";return}
+  $("#f").reset();await draw();
+ }catch(x){$("#e-pw").textContent=x.message||"Something went wrong."}
+ finally{btn.disabled=false}
+};
+$("#out").onclick=async()=>{await sb.auth.signOut();user=null;setMode("login");draw()};
+
+/* ---- shell ---- */
+async function draw(){
+ $("#login").classList.toggle("hide",!!user);$("#shell").classList.toggle("hide",!user);
+ if(!user)return;
+ $("#uname").textContent=user.name+" ("+user.sid+")";$("#urole").textContent=user.role==="faculty"?"Faculty reviewer":"Student";
+ $("#side").innerHTML=MODULES.filter(m=>m.roles.includes(user.role)).map(m=>`<button data-id="${m.id}">${m.name}</button>`).join("");
+ await go("dash");
+}
+const VIEWS={dash:"dview",events:"eview",class:"cview"};
+async function go(id){
+ const m=MODULES.find(x=>x.id===id);
+ ["dview","pview","eview","cview"].forEach(v=>$("#"+v).classList.add("hide"));
+ document.querySelectorAll("#side button").forEach(b=>b.classList.toggle("on",b.dataset.id===id));
+ if(m.url){$("#pview").classList.remove("hide");$("#pframe").src=m.url+"?t="+Date.now();return}
+ $("#"+VIEWS[id]).classList.remove("hide");
+ try{await({dash:dash,events:renderEvents,class:renderClass})[id]()}catch(e){fail("Could not load this page",e)}
+}
+/* ---- events ---- */
+async function fetchEvents(){
+ const [E,R]=await Promise.all([q(sb.from("events").select("*").order("date")),q(sb.from("event_regs").select("event_id,user_id"))]);
+ return E.map(e=>({...e,regs:R.filter(r=>r.event_id===e.id).map(r=>r.user_id)}));
+}
+function evRow(e){
+ const fac=user.role==="faculty",reg=e.regs.includes(user.id);
+ const right=fac?`<span class="muted">${e.regs.length} registered</span>`:reg?'<span class="muted">Registered</span>':`<button class="btn alt sm" data-reg="${e.id}">Register</button>`;
+ return`<div class="li"><span>${esc(e.title)}<small>${e.date}, ${e.category}, ${e.hours} hrs${e.org?", "+esc(e.org):""}</small></span>${right}</div>`;
+}
+async function dash(){
+ const fac=user.role==="faculty";
+ $("#hi").textContent="Welcome, "+user.name.split(" ")[0];
+ $("#sub").textContent=fac?"Activities waiting for your review are in the review queue.":"Your participation record at a glance.";
+ $("#evc").classList.toggle("hide",fac);
+ $("#wt").textContent=fac?"Review queue":"My participation";
+ $("#open").textContent=fac?"Open review queue":"Open portfolio";
+ $("#open").onclick=()=>go(fac?"review":"portfolio");
+ if(fac){
+  const {count}=await sb.from("portfolio_records").select("id",{count:"exact",head:true}).eq("verify","Pending");
+  const n=count||0;
+  $("#pw2").innerHTML=`<div class="kpi"><div><b>${n}</b><span>Waiting for review</span></div></div>`+(n?"":'<p class="muted" style="margin:0">Nothing is waiting right now.</p>');
+ }else{
+  const d=await q(sb.from("portfolio_records").select("status,verify,hours").eq("user_id",user.id)),goal=parseInt(localStorage.getItem("spp.goal."+user.id),10)||40;
+  const cr=d.filter(r=>r.status==="Completed"&&r.verify==="Verified").reduce((a,r)=>a+Number(r.hours),0),pct=Math.min(100,Math.round(cr/goal*100));
+  $("#pw2").innerHTML=d.length?`<div class="kpi"><div><b>${d.length}</b><span>Activities</span></div><div><b>${cr}</b><span>Verified hours</span></div><div><b>${d.filter(r=>r.verify==="Pending").length}</b><span>Pending</span></div></div>
+   <div class="muted" style="font-size:.85rem">Credit goal: ${cr} of ${goal} hours (${pct}%)</div><div class="meter"><i style="width:${pct}%"></i></div>`
+   :'<p class="muted" style="margin:0">No activities yet. Open the portfolio to add your first one.</p>';
+  const up=(await fetchEvents()).filter(e=>e.date>=today()).slice(0,3);
+  $("#events").innerHTML=up.length?up.map(evRow).join(""):'<p class="muted" style="margin:0">No upcoming events yet.</p>';
+ }
+}
+async function renderEvents(){
+ const fac=user.role==="faculty",E=await fetchEvents();
+ $("#esub").textContent=fac?"Create events and see how many students registered.":"Register for events. A registered event is added to your portfolio as Planned.";
+ $("#efac").classList.toggle("hide",!fac);
+ $("#elist").innerHTML=E.length?E.map(evRow).join(""):'<p class="muted" style="margin:0">'+(fac?"No events yet. Create the first one above.":"No events have been posted yet.")+'</p>';
+}
+$("#ef").onsubmit=async ev=>{
+ ev.preventDefault();
+ const d={title:$("#ef-t").value.trim(),category:$("#ef-c").value,date:$("#ef-d").value,hours:parseFloat($("#ef-h").value),org:$("#ef-o").value.trim()};
+ let m="";
+ if(d.title.length<3)m="Title must be at least 3 characters.";else if(!d.category)m="Choose a category.";else if(!d.date)m="Pick the event date.";else if(!(d.hours>0&&d.hours<=24))m="Hours must be between 0.5 and 24.";
+ $("#e-ef").textContent=m;if(m)return;
+ try{
+  await q(sb.from("events").insert(d));
+  $("#ef").reset();toast("Event created");await renderEvents();
+ }catch(e){fail("Could not create the event",e)}
+};
+async function registerEvent(id){
+ try{
+  const e=await q(sb.from("events").select("*").eq("id",id).single());
+  const {error}=await sb.from("event_regs").insert({event_id:id});
+  if(error&&error.code!=="23505")throw error;
+  await q(sb.from("portfolio_records").upsert({id:"ev-"+e.id,user_id:user.id,title:e.title,category:e.category,status:"Planned",date:e.date,hours:e.hours,org:e.org||"",verify:"Unverified"},{onConflict:"id,user_id",ignoreDuplicates:true}));
+  toast("Registered. The event is in your portfolio as Planned.");
+ }catch(e){fail("Could not register",e)}
+}
+/* ---- faculty class overview ---- */
+async function renderClass(){
+ const [P,A]=await Promise.all([q(sb.from("profiles").select("id,full_name,student_id,role")),q(sb.from("portfolio_records").select("user_id,category,status,hours,verify"))]);
+ const S=P.filter(p=>p.role==="student");
+ const rows=S.map(u=>{const a=A.filter(r=>r.user_id===u.id),dn=a.filter(r=>r.status==="Completed");return{u,a,n:a.length,dn:dn.length,vh:dn.filter(r=>r.verify==="Verified").reduce((s,r)=>s+Number(r.hours),0),pd:a.filter(r=>r.verify==="Pending").length}});
+ const none=rows.filter(r=>!r.n),all=rows.flatMap(r=>r.a),k=(b,l)=>`<div><b>${b}</b><span>${l}</span></div>`;
+ $("#cbody").innerHTML=!S.length?'<div class="card"><p class="muted" style="margin:0">No students have registered yet.</p></div>':
+ `<div class="card" style="margin-bottom:14px"><div class="kpi wide" style="margin:0;flex-wrap:wrap">${k(S.length,"Students")}${k(S.length-none.length,"Participating")}${k(none.length,"No activity yet")}${k(rows.reduce((s,r)=>s+r.vh,0),"Verified hours")}${k(rows.reduce((s,r)=>s+r.pd,0),"Pending review")}</div></div>
+ <div class="grid"><div class="card"><h3>Activities by category</h3>${CATS.map(c=>`<div class="li"><span>${c}</span><b>${all.filter(r=>r.category===c).length}</b></div>`).join("")}</div>
+ <div class="card"><h3>Not yet participating</h3>${none.length?none.map(r=>`<div class="li"><span>${esc(r.u.full_name||"")}<small>${esc(r.u.student_id||"")}</small></span></div>`).join(""):'<p class="muted" style="margin:0">Every student has at least one activity.</p>'}</div></div>
+ <div class="card" style="margin-top:14px;overflow-x:auto"><h3>Students by verified hours</h3><table class="tbl"><tr><th>Name</th><th>ID</th><th>Activities</th><th>Completed</th><th>Verified hrs</th><th>Pending</th></tr>${[...rows].sort((a,b)=>b.vh-a.vh).map(r=>`<tr><td>${esc(r.u.full_name||"")}</td><td>${esc(r.u.student_id||"")}</td><td>${r.n}</td><td>${r.dn}</td><td>${r.vh}</td><td>${r.pd}</td></tr>`).join("")}</table></div>`;
+}
+document.addEventListener("click",async e=>{
+ const s=e.target.closest("#side button"),rg=e.target.closest("[data-reg]");
+ if(s)go(s.dataset.id);
+ if(rg){await registerEvent(rg.dataset.reg);if($("#eview").classList.contains("hide"))dash();else renderEvents()}
+});
+$("#ef-c").innerHTML='<option value="">Category</option>'+CATS.map(c=>`<option>${c}</option>`).join("");
+(async()=>{if(configured){try{user=await loadUser()}catch(e){}}draw()})();
+</script>
+</body>
+</html>
