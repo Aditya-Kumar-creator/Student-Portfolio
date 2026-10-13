@@ -106,4 +106,4 @@ To update the site later, edit or upload a file in the repository. GitHub Pages 
 
 ## License
 
-MIT. See the LICENSE file and replace `Aditya Kumar` with yours.
+MIT. See the LICENSE file .
