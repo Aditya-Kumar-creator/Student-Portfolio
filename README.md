@@ -38,19 +38,6 @@ student-portfolio/
   README.md
 ```
 
-## Create a faculty account
-
-There is no faculty sign-up form on purpose.
-
-1. Register a normal account in the app with an ID such as `FAC001`.
-2. In the Supabase SQL Editor run:
-
-   ```sql
-   update profiles set role = 'faculty' where student_id = 'FAC001';
-   ```
-
-3. Log out and log in again.
-
 ## How it works
 
 - `index.html` handles login through Supabase Auth, builds the sidebar from a list of modules, and loads `portfolio.html` in a frame as a plugin. Adding another plugin means adding one entry to the `MODULES` list.
