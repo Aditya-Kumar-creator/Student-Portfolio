@@ -4,7 +4,7 @@ A web app where students record their workshops, competitions, hackathons, volun
 
 It is plain HTML, CSS and JavaScript with no build step. Supabase provides the login, the database, the file storage and the access rules, so there is no custom server.
 
-**Live site:** https://YOUR-USERNAME.github.io/REPO-NAME/ (replace with your own address once it is published)
+**Live site:** https://aditya-kumar-creator.github.io/Student-Portfolio/
 
 ## Features
 
@@ -34,7 +34,6 @@ student-portfolio/
   supabase-config.js      Your Supabase project URL and publishable key
   database/
     supabase-setup.sql    Tables, access rules, functions and the certificates bucket
-    remove-qr-checkin.sql Run once only if your project was set up before QR check-in was removed
   LICENSE
   README.md
 ```
@@ -106,4 +105,4 @@ To update the site later, edit or upload a file in the repository. GitHub Pages 
 
 ## License
 
-MIT. See the LICENSE file and replace `[Your name]` with yours.
+MIT. See the LICENSE file and replace `Aditya Kumar` with yours.
